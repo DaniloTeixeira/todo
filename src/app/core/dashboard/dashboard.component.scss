@@ -1,0 +1,44 @@
+* :not(mat-icon) {
+  font-family: cursive;
+}
+
+.dashboard-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+mat-card {
+  width: 90vw;
+}
+
+.create-card {
+  border-radius: 15px 15px 0 0;
+}
+
+.list-card {
+  border-radius: 0 0 15px 15px;
+  overflow: auto;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-checkbox {
+  padding: 10px;
+  max-width: 67vw;
+  overflow: scroll;
+  border-bottom: 1px solid #f1f1f1;
+  // pointer-events: none;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 2rem;
+  color: whitesmoke;
+}
