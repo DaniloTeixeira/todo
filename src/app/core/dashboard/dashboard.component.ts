@@ -15,16 +15,29 @@ import { StorageService } from 'src/app/services';
 })
 export class DashboardComponent implements OnInit {
   todos: Todo[] = [];
+  mode?: 'create' | 'manage';
 
   form!: FormGroup<{
     description: FormControl<string | null>;
   }>;
 
-  constructor(private fb: FormBuilder, private storage: StorageService) {}
+  constructor(
+    private fb: FormBuilder,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit(): void {
     this.buildForm();
     this.loadTodos();
+    this.setMode();
+  }
+
+  private setMode(): void {
+    if (this.todos) {
+      this.mode = 'manage';
+      return;
+    }
+    this.mode = 'create';
   }
 
   private buildForm(): void {
@@ -43,7 +56,7 @@ export class DashboardComponent implements OnInit {
     }
 
     const description = this.form.controls['description'].value;
-    const id = this.todos?.length + 1;
+    const id = this.todos?.length;
 
     this.todos?.push(new Todo(id, description!, false));
 
@@ -56,12 +69,22 @@ export class DashboardComponent implements OnInit {
   }
 
   private saveTodos(todos: Todo[]): void {
-    this.storage.saveTodos(todos);
+    this.storageService.saveTodos(todos);
   }
 
   private loadTodos(): void {
-    this.storage.loadTodos(this.todos);
+    if (!localStorage['todos']) {
+      return;
+    }
+
+    this.todos = JSON.parse(localStorage.getItem('todos')!);
   }
 
-  deleteTodo(id: number): void {}
+  onDeleteTodo(id: number): void {
+    this.storageService.onDeleteTodo(this.todos, id);
+  }
+
+  toggleDoneTask(todo: Todo): void {
+    todo.done = !todo.done;
+  }
 }
