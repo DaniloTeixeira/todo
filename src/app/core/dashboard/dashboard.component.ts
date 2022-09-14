@@ -15,7 +15,7 @@ import { StorageService } from 'src/app/services';
 })
 export class DashboardComponent implements OnInit {
   todos: Todo[] = [];
-  mode?: 'create' | 'manage';
+  mode?: 'create' | 'list';
 
   form!: FormGroup<{
     description: FormControl<string | null>;
@@ -33,8 +33,8 @@ export class DashboardComponent implements OnInit {
   }
 
   private setMode(): void {
-    if (this.todos) {
-      this.mode = 'manage';
+    if (this.todos.length > 0) {
+      this.mode = 'list';
       return;
     }
     this.mode = 'create';
@@ -42,11 +42,7 @@ export class DashboardComponent implements OnInit {
 
   private buildForm(): void {
     this.form = this.fb.group({
-      description: this.fb.control<string | null>('', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(50),
-      ]),
+      description: this.fb.control<string | null>('', Validators.required),
     });
   }
 
@@ -60,16 +56,17 @@ export class DashboardComponent implements OnInit {
 
     this.todos?.push(new Todo(id, description!, false));
 
-    this.saveTodos(this.todos);
+    this.saveTodos();
     this.resetForm();
+    this.mode = 'list';
   }
 
   private resetForm(): void {
     this.form.reset();
   }
 
-  private saveTodos(todos: Todo[]): void {
-    this.storageService.saveTodos(todos);
+  private saveTodos(): void {
+    this.storageService.saveTodos(this.todos);
   }
 
   private loadTodos(): void {
@@ -82,9 +79,11 @@ export class DashboardComponent implements OnInit {
 
   onDeleteTodo(id: number): void {
     this.storageService.onDeleteTodo(this.todos, id);
+    this.saveTodos();
   }
 
   toggleDoneTask(todo: Todo): void {
     todo.done = !todo.done;
+    this.saveTodos();
   }
 }

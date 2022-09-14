@@ -5,20 +5,10 @@ import { Todo } from '../models/Todo';
   providedIn: 'root',
 })
 export class StorageService {
-  loadTodos(tasks: Todo[]): void {
-    if (!localStorage['todos']) {
-      return;
-    }
-
-    tasks = JSON.parse(localStorage.getItem('todos')!);
-  }
-
-  //OK
   saveTodos(todos: Todo[]): void {
     localStorage.setItem('todos', JSON.stringify(todos));
   }
 
-  //OK
   onDeleteTodo(todos: Todo[], id: number): void {
     const index = todos.findIndex((t) => t.id === id);
 
@@ -27,6 +17,5 @@ export class StorageService {
 
   clearLocalStorage(): void {
     localStorage.clear();
-    alert('localStorage limpo');
   }
 }

@@ -1,4 +1,4 @@
-* :not(mat-icon) {
+* :not(mat-icon, h1) {
   font-family: cursive;
 }
 
@@ -10,9 +10,28 @@
   align-items: center;
 }
 
+.list-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: 50%;
+}
+
+.done-icon {
+  color: #45f248;
+  opacity: unset;
+  padding: 2px;
+}
+
 mat-card {
   width: 90vw;
+  max-width: 500px;
   border-radius: 10px;
+  background: #fbf196;
 }
 
 button {
@@ -22,19 +41,20 @@ button {
 }
 
 mat-checkbox {
-  padding: 10px;
-  max-width: 67vw;
-  // overflow: scroll;
-  // pointer-events: none;
+  width: 100%;
+  min-height: 65px;
+  border-bottom: 1px solid #007bd1;
 }
 
 h1 {
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 3.5rem;
   color: whitesmoke;
+  font-family: "Dancing Script", cursive;
+  text-shadow: 3px 5px #000;
 }
 
-.create-button {
-  background: #00c04b;
-  color: #fff;
+span {
+  font-size: 25px;
+  margin-left: 5px;
 }
